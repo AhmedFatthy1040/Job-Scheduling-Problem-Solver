@@ -8,15 +8,18 @@ jobs = [
     Job(1, 3),
     Job(2, 1, dependency=1),
     Job(3, 4),
+    Job(4, 5, dependency=3),
+    Job(5, 1, dependency=3),
 ]
 
 resources = [
     Resource(1, 6),
     Resource(2, 4),
+    Resource(3, 5),
 ]
 
-jsp = JobSchedulingProblem(jobs, resources)
+problem_instance = JobSchedulingProblem(jobs, resources)
 
 # Create an instance of the BacktrackingAlgorithm and solve the problem
-backtracking_algorithm = BacktrackingAlgorithm(jsp)
+backtracking_algorithm = BacktrackingAlgorithm(problem_instance)
 backtracking_algorithm.solve()
