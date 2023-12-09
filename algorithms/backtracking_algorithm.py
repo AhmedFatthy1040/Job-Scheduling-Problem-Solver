@@ -49,5 +49,16 @@ class BacktrackingAlgorithm:
 
     def display_schedule(self):
         print("Optimal Schedule:")
-        for job, resource in self.best_schedule:
-            print(f"Job {job.job_id} scheduled on Resource {resource.resource_id}")
+        resource_occupancy = {resource.resource_id: 0 for resource in self.problem_instance.resources}
+
+        for assignment in self.best_schedule:
+            job = assignment[0]
+            resource = assignment[1]
+            start_time = resource_occupancy[resource.resource_id]
+            end_time = start_time + job.processing_time
+
+            print(f"Job {job.job_id} scheduled on Resource {resource.resource_id} "
+                f"Start Time: {start_time}, End Time: {end_time}")
+
+            # Update Resource Occupancy
+            resource_occupancy[resource.resource_id] = end_time
