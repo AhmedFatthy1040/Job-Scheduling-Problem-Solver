@@ -50,15 +50,24 @@ class BacktrackingAlgorithm:
     def display_schedule(self):
         print("Optimal Schedule:")
         resource_occupancy = {resource.resource_id: 0 for resource in self.problem_instance.resources}
+        job_start_times = {job.job_id: 0 for job in self.problem_instance.jobs}
 
         for assignment in self.best_schedule:
             job = assignment[0]
             resource = assignment[1]
-            start_time = resource_occupancy[resource.resource_id]
+
+            # Calculate the start time considering dependencies
+            dependency_start_time = job_start_times[job.dependency] if job.dependency is not None else 0
+            start_time = max(resource_occupancy[resource.resource_id], dependency_start_time)
+
             end_time = start_time + job.processing_time
 
             print(f"Job {job.job_id} scheduled on Resource {resource.resource_id} "
                 f"Start Time: {start_time}, End Time: {end_time}")
 
-            # Update Resource Occupancy
+            # Update Resource Occupancy and Job Start Times
             resource_occupancy[resource.resource_id] = end_time
+            job_start_times[job.job_id] = end_time
+
+
+
