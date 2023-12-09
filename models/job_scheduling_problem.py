@@ -6,7 +6,8 @@ class JobSchedulingProblem:
     def display_problem(self):
         print("Jobs:")
         for job in self.jobs:
-            print(f"Job {job.job_id} (Processing Time: {job.processing_time}, Dependencies: {job.dependencies})")
+            dependencies = job.dependency if job.dependency is not None else "None"
+            print(f"Job {job.job_id} (Processing Time: {job.processing_time}, Dependency: {dependencies})")
 
         print("\nResources:")
         for resource in self.resources:
