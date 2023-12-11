@@ -48,7 +48,7 @@ class BacktrackingAlgorithm:
             print("No valid schedule found.")
 
     def display_schedule(self):
-        print("Optimal Schedule:")
+        print("Optimal Schedule (Backtracking Algorithm):")
         resource_occupancy = {resource.resource_id: 0 for resource in self.problem_instance.resources}
         job_start_times = {job.job_id: 0 for job in self.problem_instance.jobs}
 
