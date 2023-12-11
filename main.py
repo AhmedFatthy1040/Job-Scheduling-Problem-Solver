@@ -2,6 +2,7 @@ from models.resource import Resource
 from models.job import Job
 from models.job_scheduling_problem import JobSchedulingProblem
 from algorithms.backtracking_algorithm import BacktrackingAlgorithm
+from algorithms.genetic_algorithm import GeneticAlgorithm
 
 # Define the job scheduling problem instance
 jobs = [
@@ -21,5 +22,5 @@ resources = [
 problem_instance = JobSchedulingProblem(jobs, resources)
 
 # Create an instance of the BacktrackingAlgorithm and solve the problem
-backtracking_algorithm = BacktrackingAlgorithm(problem_instance)
-backtracking_algorithm.solve()
+genetic_algorithm = GeneticAlgorithm(problem_instance)
+genetic_algorithm.evolve()
