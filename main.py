@@ -1,11 +1,11 @@
 import tkinter as tk
 from tkinter import messagebox
 from gui.main_window import MainWindow
-from gui.algorithms_comparison_window import AlgorithmComparisonWindow
 
-# root = tk.Tk()
-# app = MainWindow(root)
-# root.mainloop()
+root = tk.Tk()
+app = MainWindow(root)
+root.mainloop()
+
 # ------------------------------------------
 
 # from models.resource import Resource
@@ -51,8 +51,3 @@ from gui.algorithms_comparison_window import AlgorithmComparisonWindow
 #     print("On average, Genetic Algorithm is faster.")
 # else:
 #     print("On average, both algorithms have the same performance.")
-
-root = tk.Tk()
-app = AlgorithmComparisonWindow(root)
-root.geometry("600x600")
-root.mainloop()
