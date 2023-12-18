@@ -64,7 +64,10 @@ class GeneticAlgorithm:
                 return resource_occupancy[resource.resource_id]
 
     def crossover(self, parent1, parent2):
-        crossover_point = random.randint(1, len(parent1) - 1)
+        if len(parent1) > 1:
+            crossover_point = random.randint(1, len(parent1) - 1)
+        else:
+            crossover_point = 1
         child1 = parent1[:crossover_point] + parent2[crossover_point:]
         child2 = parent2[:crossover_point] + parent1[crossover_point:]
         return child1, child2
@@ -111,12 +114,13 @@ class GeneticAlgorithm:
                 self.best_schedule = current_best_schedule
 
         self.display_schedule(self.best_schedule)
+        return self.best_schedule
 
     def display_schedule(self, schedule):
         print("Optimal Schedule (Genetic Algorithm):")
         resource_occupancy = {resource.resource_id: 0 for resource in self.problem_instance.resources}
         job_start_times = {job.job_id: 0 for job in self.problem_instance.jobs}
-
+        
         for assignment in schedule:
             job = assignment[0]
             resource = assignment[1]
