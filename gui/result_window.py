@@ -1,31 +1,27 @@
 import tkinter as tk
-from tkinter import messagebox
-from gui.main_window import MainWindow
-from models.job import Job
-from models.resource import Resource
-from models.job_scheduling_problem import JobSchedulingProblem
-from algorithms.backtracking_algorithm import BacktrackingAlgorithm
-from algorithms.genetic_algorithm import GeneticAlgorithm
 
 class ResultWindow:
-    def __init__(self, root, algorithm, problem_instance):
-        self.root = root
+    def __init__(self, master, algorithm, problem_instance):
+        self.master = master
         self.algorithm = algorithm
         self.problem_instance = problem_instance
 
-        self.result_text = tk.Text(root, wrap=tk.WORD, height=20, width=60)
+        self.result_text = tk.Text(master, wrap=tk.WORD, height=20, width=60)
         self.result_text.grid(row=0, column=0, padx=10, pady=10)
 
         self.display_results()
 
     def display_results(self):
-        if isinstance(self.algorithm, BacktrackingAlgorithm):
-            self.algorithm.solve()
-            self.display_schedule(self.algorithm.best_schedule)
-        elif isinstance(self.algorithm, GeneticAlgorithm):
-            self.algorithm.evolve()
-            best_schedule = min(self.algorithm.population, key=lambda x: self.algorithm.fitness(x))
+        if self.algorithm:
+            if hasattr(self.algorithm, 'evolve'):
+                self.algorithm.initialize_population()
+                best_schedule = self.algorithm.evolve()
+            else:
+                best_schedule = self.algorithm.solve()
+
             self.display_schedule(best_schedule)
+        else:
+            self.result_text.insert(tk.END, "No algorithm instance provided.")
 
     def display_schedule(self, schedule):
         self.result_text.delete("1.0", tk.END)  # Clear the text widget before displaying results
@@ -54,3 +50,9 @@ class ResultWindow:
 
             resource_occupancy[resource.resource_id] = end_time
             job_start_times[job.job_id] = end_time
+
+if __name__ == "__main__":
+    # Example usage
+    root = tk.Tk()
+    app = ResultWindow(root, None, None)  # Replace with actual algorithm and problem_instance
+    root.mainloop()
