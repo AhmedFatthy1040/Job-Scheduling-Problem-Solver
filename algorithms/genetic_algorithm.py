@@ -8,6 +8,7 @@ class GeneticAlgorithm:
         self.crossover_prob = crossover_prob
         self.mutation_prob = mutation_prob
         self.population = []
+        self.best_schedule = None
 
     def initialize_population(self):
         for _ in range(self.population_size):
@@ -104,8 +105,12 @@ class GeneticAlgorithm:
 
             self.population = parents + offspring
 
-        best_schedule = min(self.population, key=lambda x: self.fitness(x))
-        self.display_schedule(best_schedule)
+            current_best_schedule = min(self.population, key=lambda x: self.fitness(x))
+
+            if self.best_schedule is None or self.fitness(current_best_schedule) < self.fitness(self.best_schedule):
+                self.best_schedule = current_best_schedule
+
+        self.display_schedule(self.best_schedule)
 
     def display_schedule(self, schedule):
         print("Optimal Schedule (Genetic Algorithm):")
