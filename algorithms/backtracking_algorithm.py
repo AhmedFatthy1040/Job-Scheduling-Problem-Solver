@@ -46,6 +46,8 @@ class BacktrackingAlgorithm:
             self.display_schedule()
         else:
             print("No valid schedule found.")
+        
+        return self.best_schedule
 
     def display_schedule(self):
         print("Optimal Schedule (Backtracking Algorithm):")
