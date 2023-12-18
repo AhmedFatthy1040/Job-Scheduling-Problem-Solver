@@ -72,17 +72,19 @@ class AlgorithmComparisonWindow:
 
         result_label_text = ""
         if total_backtracking > total_genetic:
-            result_label_text = "On average, Backtracking Algorithm is faster."
+            result_label_text = "On average, Backtracking Algorithm made the optimal schedule."
         elif total_backtracking < total_genetic:
-            result_label_text = "On average, Genetic Algorithm is faster."
+            result_label_text = "On average, Genetic Algorithm made the optimal schedule."
         else:
             result_label_text = "On average, both algorithms have the same performance."
 
         result_label_text += f"\nAvg Backtracking Time: {avg_backtracking_time:.6f} seconds"
         result_label_text += f"\nAvg Genetic Time: {avg_genetic_time:.6f} seconds"
 
+        self.result_label.config(text=result_label_text)
         self.instances_text.delete(1.0, tk.END)
         self.instances_text.insert(tk.END, instances_text)
+
 
 if __name__ == "__main__":
     root = tk.Tk()
