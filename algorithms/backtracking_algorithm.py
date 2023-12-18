@@ -68,6 +68,3 @@ class BacktrackingAlgorithm:
             # Update Resource Occupancy and Job Start Times
             resource_occupancy[resource.resource_id] = end_time
             job_start_times[job.job_id] = end_time
-
-
-
