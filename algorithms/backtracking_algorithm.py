@@ -7,15 +7,18 @@ class BacktrackingAlgorithm:
         resource_occupancy = {resource.resource_id: 0 for resource in self.problem_instance.resources}
 
         for job, resource in schedule:
-            # Check Resource Capacity
             if resource_occupancy[resource.resource_id] + job.processing_time > resource.capacity:
                 return False
 
-            # Check job dependencies
-            if job.dependency is not None and job.dependency not in [j.job_id for j, _ in schedule]:
-                return False
+            if job.dependency is not None:
+                dependency_scheduled = False
+                for j, _ in schedule:
+                    if j.job_id == job.dependency:
+                        dependency_scheduled = True
+                        break
+                if not dependency_scheduled:
+                    return False
 
-            # Update Resource Occupancy
             resource_occupancy[resource.resource_id] += job.processing_time
 
         return True
@@ -58,7 +61,6 @@ class BacktrackingAlgorithm:
             job = assignment[0]
             resource = assignment[1]
 
-            # Calculate the start time considering dependencies
             dependency_start_time = job_start_times[job.dependency] if job.dependency is not None else 0
             start_time = max(resource_occupancy[resource.resource_id], dependency_start_time)
 
@@ -67,6 +69,5 @@ class BacktrackingAlgorithm:
             print(f"Job {job.job_id} scheduled on Resource {resource.resource_id} "
                 f"Start Time: {start_time}, End Time: {end_time}")
 
-            # Update Resource Occupancy and Job Start Times
             resource_occupancy[resource.resource_id] = end_time
             job_start_times[job.job_id] = end_time

@@ -27,7 +27,7 @@ class GeneticAlgorithm:
 
     def fitness(self, schedule):
         if not self.is_valid_schedule(schedule):
-            return float('inf')  # Penalize invalid schedules
+            return float('inf')
 
         makespan = self.calculate_makespan(schedule)
         return makespan
@@ -39,8 +39,14 @@ class GeneticAlgorithm:
             if resource_occupancy[resource.resource_id] + job.processing_time > resource.capacity:
                 return False
 
-            if job.dependency is not None and job.dependency not in [j.job_id for j, _ in schedule]:
-                return False
+            if job.dependency is not None:
+                dependency_scheduled = False
+                for j, _ in schedule:
+                    if j.job_id == job.dependency:
+                        dependency_scheduled = True
+                        break
+                if not dependency_scheduled:
+                    return False
 
             resource_occupancy[resource.resource_id] += job.processing_time
 
@@ -61,7 +67,10 @@ class GeneticAlgorithm:
     def get_job_end_time(self, job_id, schedule, resource_occupancy):
         for job, resource in schedule:
             if job.job_id == job_id:
-                return resource_occupancy[resource.resource_id]
+                dependency_start_time = 0 if job.dependency is None else self.get_job_end_time(job.dependency, schedule, resource_occupancy)
+                start_time = max(resource_occupancy.get(resource.resource_id, 0), dependency_start_time)
+                return start_time + job.processing_time
+        return 0
 
     def crossover(self, parent1, parent2):
         if len(parent1) > 1:
